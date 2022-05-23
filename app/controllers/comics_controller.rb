@@ -1,26 +1,38 @@
 class ComicsController < ApplicationController
-  before_action :set_comic, only: %i[ show ]
+  # before_action :set_comic, only: %i[ show ]
+  # before_action :validate_number, only: %i[ index ]
   Faraday.default_adapter = :net_http
 
   # GET /comics or /comics.json
   def index
     @api_url = XkcdComics::Application::URL_XKCD
-    Rails.logger.info "<"*150
-    Rails.logger.info params[:comic_id]
+    @comic_index = make_request(@api_url, nil)
+    @last = last_comic(@api_url)
 
-    if params[:search_by_number] && params[:search_by_number] != ""
-      @peticion = Faraday.get("#{@api_url}#{params[:search_by_number]}/info.0.json")
-    else
-      if params[:comic_id] && params[:comic_id] != ""
-        @peticion = Faraday.get("#{@api_url}#{params[:comic_id]}/info.0.json")
-      else
-        @peticion = Faraday.get("#{@api_url}info.0.json")
-      end
+    if @comic_index
+      @comic = @comic_index
+      @max = @comic['num']
     end
 
-    @comic = JSON.parse(@peticion.body)
+    if @max == @last
+      @disabled = true
+    end
+
+    if params[:search_by_number] && params[:search_by_number] != ""
+      @comic = make_request(@api_url, params[:search_by_number])
+      @disabled = false
+    end
+
+    if params[:comic_id] && params[:comic_id] != ""
+      @comic = make_request(@api_url, params[:comic_id])
+      @disabled = false
+    end
 
     @max_number = @comic['num']
+
+    Rails.logger.info ">"*150
+    Rails.logger.info @max_number
+    Rails.logger.info @comic.to_json
   end
 
   # GET /comics/1 or /comics/1.json
@@ -31,6 +43,34 @@ class ComicsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_comic
       @comic = Comic.find(params[:id])
+    end
+
+    def make_request(request, comic_number=0)
+      if comic_number && comic_number != 0
+        req = Faraday.get("#{request}#{comic_number}/info.0.json")
+      else
+        req = Faraday.get("#{request}info.0.json")
+      end
+
+      if req.status == 404 && @max != @last
+        make_request(request, comic_number.to_i + 1)
+      end
+
+      Rails.logger.debug "="*150
+      Rails.logger.debug JSON.parse(req.to_json)
+      comic = JSON.parse(req.body)
+    end
+
+    def last_comic request
+      req = Faraday.get("#{request}info.0.json")
+      comic = JSON.parse(req.body)
+      last = comic['num']
+    end
+
+    def validate_number
+      unless params[:comic_id].scan(/\D/).empty?
+        flash.now[:alert] = "Error: El numero del cómic debe ser mayor a 0."
+      end
     end
 
     # Only allow a list of trusted parameters through.

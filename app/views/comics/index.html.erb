@@ -1,13 +1,17 @@
 <div class="container" style="padding-top: 50px">
   <%= form_tag "/comics", method: "GET" do %>
     <strong><%= label_tag "Numero de Cómic" %></strong>
-    <%= text_field_tag :search_by_number, params[:search_by_number] %>
+    <%= number_field_tag :search_by_number, params[:search_by_number], min: 1, autocomplete: false%>
 
     <%= submit_tag "Buscar" %>
   <% end %>
 </div>
 
-<p style="color: green"><%= notice %></p>
+<% flash.each do |type, msg| %>
+  <div class="alert alert-info">
+    <%= msg %>
+  </div>
+<% end %>
 
 <div class="container">
   <div style="text-align: center">
@@ -18,7 +22,9 @@
     <div class="col">
       <%= link_to "<button>Cómic Anterior</button>".html_safe, root_url(:comic_id => @max_number - 1), method: :get %>
       <%= image_tag "#{@comic['img']}", alt: "#{@comic['alt']}" %>
-      <%= link_to "<button>Cómic Siguiente</button>".html_safe, root_url(:comic_id => @max_number + 1), method: :get %>
+      <% if !@disabled %>
+        <%= link_to "<button>Cómic Siguiente</button>".html_safe, root_url(:comic_id => @max_number + 1), method: :get %>
+      <% end %>
     </div>
   </div>
   <div style="text-align: center">
