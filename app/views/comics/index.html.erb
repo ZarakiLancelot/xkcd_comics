@@ -1,3 +1,7 @@
+<div class="container" style="padding-top: 10px; display: flex; justify-content: center; width: 300px;">
+  <%= link_to "<button>Inicio</button>".html_safe, root_url, method: :get %>
+</div>
+
 <div class="container" style="padding-top: 50px">
   <%= form_tag "/comics", method: "GET" do %>
     <strong><%= label_tag "Numero de Cómic" %></strong>
@@ -22,7 +26,9 @@
     <div class="col">
       <%= link_to "<button>Cómic Anterior</button>".html_safe, root_url(:comic_id => @max_number - 1), method: :get %>
       <%= image_tag "#{@comic['img']}", alt: "#{@comic['alt']}" %>
-      <% if !@disabled %>
+      <% if @max_number == 403 %>
+        <%= link_to "<button>Cómic Siguiente</button>".html_safe, root_url(:comic_id => @max_number + 2), method: :get %>
+      <% else %>
         <%= link_to "<button>Cómic Siguiente</button>".html_safe, root_url(:comic_id => @max_number + 1), method: :get %>
       <% end %>
     </div>

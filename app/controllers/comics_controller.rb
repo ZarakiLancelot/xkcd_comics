@@ -11,28 +11,26 @@ class ComicsController < ApplicationController
 
     if @comic_index
       @comic = @comic_index
-      @max = @comic['num']
+      @max_number = @comic['num']
     end
 
-    if @max == @last
+    if @max_number == @last
       @disabled = true
     end
 
     if params[:search_by_number] && params[:search_by_number] != ""
+      @max_number = params[:search_by_number].to_i
       @comic = make_request(@api_url, params[:search_by_number])
       @disabled = false
     end
 
     if params[:comic_id] && params[:comic_id] != ""
+      @max_number = params[:comic_id].to_i
       @comic = make_request(@api_url, params[:comic_id])
       @disabled = false
     end
 
-    @max_number = @comic['num']
-
-    Rails.logger.info ">"*150
-    Rails.logger.info @max_number
-    Rails.logger.info @comic.to_json
+    @max_number
   end
 
   # GET /comics/1 or /comics/1.json
@@ -51,13 +49,7 @@ class ComicsController < ApplicationController
       else
         req = Faraday.get("#{request}info.0.json")
       end
-
-      if req.status == 404 && @max != @last
-        make_request(request, comic_number.to_i + 1)
-      end
-
-      Rails.logger.debug "="*150
-      Rails.logger.debug JSON.parse(req.to_json)
+      
       comic = JSON.parse(req.body)
     end
 
