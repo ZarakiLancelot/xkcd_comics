@@ -1,3 +1,12 @@
+<div class="container" style="padding-top: 50px">
+  <%= form_tag "/comics", method: "GET" do %>
+    <strong><%= label_tag "Numero de Cómic" %></strong>
+    <%= text_field_tag :search_by_number, params[:search_by_number] %>
+
+    <%= submit_tag "Buscar" %>
+  <% end %>
+</div>
+
 <p style="color: green"><%= notice %></p>
 
 <div class="container">
@@ -7,6 +16,7 @@
 
   <div id="comic" style="display: flex; justify-content: center; align-items: stretch; flex-wrap: wrap; flex-direction: column; align-content: space-around;">
     <div class="col">
+      <%= button_to "Cómic Anterior", {action: "/comics", id: @max_number-1} %>
       <%= image_tag "#{@comic['img']}", alt: "#{@comic['alt']}" %>
     </div>
   </div>
