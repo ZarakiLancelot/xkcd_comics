@@ -29,6 +29,8 @@ gem "jbuilder"
 
 gem 'faraday', '~> 2.3'
 
+gem 'annotate'
+
 # Use Redis adapter to run Action Cable in production
 # gem "redis", "~> 4.0"
 

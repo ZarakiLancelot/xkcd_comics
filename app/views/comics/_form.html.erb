@@ -1,0 +1,72 @@
+<%= form_with(model: comic) do |form| %>
+  <% if comic.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(comic.errors.count, "error") %> prohibited this comic from being saved:</h2>
+
+      <ul>
+        <% comic.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :month, style: "display: block" %>
+    <%= form.text_field :month %>
+  </div>
+
+  <div>
+    <%= form.label :num, style: "display: block" %>
+    <%= form.number_field :num %>
+  </div>
+
+  <div>
+    <%= form.label :link, style: "display: block" %>
+    <%= form.text_field :link %>
+  </div>
+
+  <div>
+    <%= form.label :year, style: "display: block" %>
+    <%= form.text_field :year %>
+  </div>
+
+  <div>
+    <%= form.label :news, style: "display: block" %>
+    <%= form.text_field :news %>
+  </div>
+
+  <div>
+    <%= form.label :safe_title, style: "display: block" %>
+    <%= form.text_field :safe_title %>
+  </div>
+
+  <div>
+    <%= form.label :transcript, style: "display: block" %>
+    <%= form.text_area :transcript %>
+  </div>
+
+  <div>
+    <%= form.label :alt, style: "display: block" %>
+    <%= form.text_area :alt %>
+  </div>
+
+  <div>
+    <%= form.label :img, style: "display: block" %>
+    <%= form.text_field :img %>
+  </div>
+
+  <div>
+    <%= form.label :title, style: "display: block" %>
+    <%= form.text_field :title %>
+  </div>
+
+  <div>
+    <%= form.label :day, style: "display: block" %>
+    <%= form.text_field :day %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
