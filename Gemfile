@@ -10,7 +10,7 @@ gem "rails", "~> 7.0.3"
 gem "sprockets-rails"
 
 # Use sqlite3 as the database for Active Record
-gem "sqlite3", "~> 1.4"
+# gem "sqlite3", "~> 1.4"
 
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", "~> 5.0"
@@ -30,6 +30,8 @@ gem "jbuilder"
 gem 'faraday', '~> 2.3'
 
 gem 'annotate'
+
+gem 'pg'
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 gem "rack-cors"
