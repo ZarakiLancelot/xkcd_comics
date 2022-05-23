@@ -16,8 +16,9 @@
 
   <div id="comic" style="display: flex; justify-content: center; align-items: stretch; flex-wrap: wrap; flex-direction: column; align-content: space-around;">
     <div class="col">
-      <%= button_to "Cómic Anterior", {action: "/comics", id: @max_number-1} %>
+      <%= link_to "<button>Cómic Anterior</button>".html_safe, root_url(:comic_id => @max_number - 1), method: :get %>
       <%= image_tag "#{@comic['img']}", alt: "#{@comic['alt']}" %>
+      <%= link_to "<button>Cómic Siguiente</button>".html_safe, root_url(:comic_id => @max_number + 1), method: :get %>
     </div>
   </div>
   <div style="text-align: center">

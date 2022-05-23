@@ -1,7 +1,5 @@
 Rails.application.routes.draw do
-  resources :comics do
-    get 'next', to: 'comics#next'
-  end
+  # resources :comics
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
