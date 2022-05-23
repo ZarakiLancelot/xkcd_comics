@@ -1,14 +1,18 @@
 <p style="color: green"><%= notice %></p>
 
-<h1>Comics</h1>
+<div class="container">
+  <div style="text-align: center">
+    <h1>XKCD Comic API</h1>
+  </div>
 
-<div id="comics">
-  <% @comics.each do |comic| %>
-    <%= render comic %>
-    <p>
-      <%= link_to "Show this comic", comic %>
-    </p>
-  <% end %>
+  <div id="comic" style="display: flex; justify-content: center; align-items: stretch; flex-wrap: wrap; flex-direction: column; align-content: space-around;">
+    <div class="col">
+      <%= image_tag "#{@comic['img']}", alt: "#{@comic['alt']}" %>
+    </div>
+  </div>
+  <div style="text-align: center">
+    <h2>
+      <%= @comic['title'] %>
+    </h2>
+  </div>
 </div>
-
-<%= link_to "New comic", new_comic_path %>

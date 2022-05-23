@@ -18,4 +18,5 @@
 #  updated_at :datetime         not null
 #
 class Comic < ApplicationRecord
+    include Faraday
 end
