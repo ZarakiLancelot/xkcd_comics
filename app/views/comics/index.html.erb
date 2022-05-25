@@ -24,12 +24,16 @@
 
   <div id="comic" style="display: flex; justify-content: center; align-items: stretch; flex-wrap: wrap; flex-direction: column; align-content: space-around;">
     <div class="col">
-      <%= link_to "<button>Cómic Anterior</button>".html_safe, root_url(:comic_id => @max_number - 1), method: :get %>
+      <% if @max_number >= 2 %>
+        <%= link_to "<button>Cómic Anterior</button>".html_safe, root_url(:comic_id => @max_number - 1), method: :get %>
+      <% end %>
       <%= image_tag "#{@comic['img']}", alt: "#{@comic['alt']}" %>
       <% if @max_number == 403 %>
         <%= link_to "<button>Cómic Siguiente</button>".html_safe, root_url(:comic_id => @max_number + 2), method: :get %>
       <% else %>
-        <%= link_to "<button>Cómic Siguiente</button>".html_safe, root_url(:comic_id => @max_number + 1), method: :get %>
+        <% if @max_number != @last %>
+          <%= link_to "<button>Cómic Siguiente</button>".html_safe, root_url(:comic_id => @max_number + 1), method: :get %>
+        <% end %>
       <% end %>
     </div>
   </div>
